@@ -10,8 +10,6 @@ var getPlayerName = function(){
 
     }
 
-
-
     console.log("Your robot's name is " + name);
     return name;
 
@@ -51,36 +49,38 @@ var playerInfo = {
 };
 
 
-// console.log(playerInfo.name,playerInfo.health,playerInfo.attack);
+var fightOrSkip = function(){
+    var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+    promptFight = promptFight.toLowerCase();
+
+    if (promptFight === "" || promptFight === null){
+
+        window.alert("You need to provide a valid answer! Please try again.");
+        return fightOrSkip();
+    }
 
 
 
-// console.log(enemy.names.length);
+    if (promptFight === "skip" || promptFight === "SKIP"){
+        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+        if (confirmSkip){
+            window.alert(playerInfo.name + " has decided to skip this fight. Goodbye! ");
+            //playerInfo.playerMoney = playerInfo.money - 10;
+            playerInfo.money = Math.max(0, playerInfo.money - 10);
+            return true;
+        }
 
-// for(var i = 0; i < enemy.names.length; i++){
-//     console.log(enemy.names[i]);
-//     console.log(i);
-//     console.log(enemy.names[i] + " is at " + i + " index ");
-// }
+    }
+    return false;
+}
 
 var fight = function(enemy){
 
     while( playerInfo.health > 0 && enemy.health > 0){
-        //window.alert("Welcome to Robot Gladiators!");
-
-        var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose." );
-
-        if ( promptFight=== "skip" || promptFight === "SKIP"){
-            var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-            if (confirmSkip){
-                window.alert(playerInfo.name + " has decided to skip this fight. Goodbye! ");
-                playerInfo.money = Math.max(0, playerInfo.money - 10);
-                console.log("playerInfo.money", playerInfo.money);
-                break;
-            }
+        if(fightOrSkip()){
+            break;
         }
-
-       // if (promptFight === "fight" || promptFight === "FIGHT"){
+       
         var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
 
         enemy.health = Math.max(0, enemy.health - damage);
